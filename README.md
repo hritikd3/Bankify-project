@@ -20,11 +20,13 @@ Bankify can be used as a platform between parties to transfer, mandate the payme
 <h1 align="center">
 Flowchart🎯 
 </h1>
-<img src="/Bankify-flowchart.png">
+
+<img src="Bankify-flowchart.png">
 
 <hr>
 <hr>
 <hr>
+
 #### check out the deployed project :https://mybankify.vercel.app/
 ## :fire: Features
 
