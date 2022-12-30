@@ -31,8 +31,6 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-
-
 //  Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -59,6 +57,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//  ALL THE TRANSACTION LOGIC STARTS FROM HERE
 //Dom manupulation
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
@@ -69,16 +68,61 @@ const displayMovements = function (movements) {
           <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-          <div class="movements__value">${mov}</div>
+          <div class="movements__value">${mov} ₹</div>
         </div>
   `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-
 displayMovements(account1.movements);
+///    ENDS HERE    ///
 
+
+/// DISPLAY BALANCE STARTS HERE   //
+//this function will calculate the total balance (including depost + withdrew) and show
+const calcDisplayBalance = function (movements) {
+  const calcPrintBalance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${calcPrintBalance} ₹`;
+};
+calcDisplayBalance(account1.movements);
+/// DISPLAY BALANCE END HERE   //
+
+
+
+
+// BOTTOM AMOUNT LOGIC HERE (IN , OUT, INTEREST)   ///
+const calcDisplaySummary = function (movements) {
+  //jo paisa aa raha hai uska status
+  const incomeIn = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomeIn} ₹`;
+  //jo paisa jaa raha h uska status
+  const incomeOut = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(incomeOut)} ₹`;
+
+  //count the interest on amount  interest 1.2%
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    //from line no 102 to 106 is master code which means if in future bank introduces condition that only people have more than 1 rs in bank will get intrest so we can add by this otherwise simply remove this logic it will work with reduce  ..
+    .filter((inter, arr) => {
+      console.log(arr);
+      return inter >= 1;  //IF INETEREST IS GREATER THAN 1 
+    }) //till now
+    .reduce((acc, inter) => acc + inter, 0);
+  labelSumInterest.textContent = `${interest} ₹`;
+};
+
+calcDisplaySummary(account1.movements);
+/////  BOTTOM LOGIC ENDS HERE  //////
+
+
+
+//    USERNAME LOGIC STARTS HERE
 //sorting user names like we have name as ('Hritik Dangi -> hd) we login using it
 const createUsername = function (accs) {
   accs.forEach(function (acc) {
@@ -94,37 +138,4 @@ const createUsername = function (accs) {
 };
 createUsername(accounts);
 console.log(accounts);
-
-
-//this function will calculate the total balance (including depost + withdrew) and show
-const calcDisplayBalance= function(movements){
-  const calcPrintBalance=movements.reduce((acc,cur)=>acc+cur,0)
-   labelBalance.textContent= `${calcPrintBalance} INR`
-}
-calcDisplayBalance(account1.movements)
-
-//  Elements
-// const labelWelcome = document.querySelector('.welcome');
-// const labelDate = document.querySelector('.date');
-// const labelBalance = document.querySelector('.balance__value');
-// const labelSumIn = document.querySelector('.summary__value--in');
-// const labelSumOut = document.querySelector('.summary__value--out');
-// const labelSumInterest = document.querySelector('.summary__value--interest');
-// const labelTimer = document.querySelector('.timer');
-
-// const containerApp = document.querySelector('.app');
-// const containerMovements = document.querySelector('.movements');
-
-// const btnLogin = document.querySelector('.login__btn');
-// const btnTransfer = document.querySelector('.form__btn--transfer');
-// const btnLoan = document.querySelector('.form__btn--loan');
-// const btnClose = document.querySelector('.form__btn--close');
-// const btnSort = document.querySelector('.btn--sort');
-
-// const inputLoginUsername = document.querySelector('.login__input--user');
-// const inputLoginPin = document.querySelector('.login__input--pin');
-// const inputTransferTo = document.querySelector('.form__input--to');
-// const inputTransferAmount = document.querySelector('.form__input--amount');
-// const inputLoanAmount = document.querySelector('.form__input--loan-amount');
-// const inputCloseUsername = document.querySelector('.form__input--user');
-// const inputClosePin = document.querySelector('.form__input--pin');
+//   ENDS HERE     //
