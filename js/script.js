@@ -24,7 +24,7 @@ const account3 = {
 
 const account4 = {
   owner: 'Sarah Smith',
-  movements: [430, 1000, 700, 50, 90],
+  movements: [430, 1000, -333,700, 50, 90],
   interestRate: 1,
   pin: 4444,
 };
@@ -57,6 +57,9 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+
+
 //  ALL THE TRANSACTION LOGIC STARTS FROM HERE
 //Dom manupulation
 const displayMovements = function (movements) {
@@ -75,8 +78,10 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
+
 ///    ENDS HERE    ///
+
+
 
 
 /// DISPLAY BALANCE STARTS HERE   //
@@ -85,40 +90,45 @@ const calcDisplayBalance = function (movements) {
   const calcPrintBalance = movements.reduce((acc, cur) => acc + cur, 0);
   labelBalance.textContent = `${calcPrintBalance} ₹`;
 };
-calcDisplayBalance(account1.movements);
+
 /// DISPLAY BALANCE END HERE   //
 
 
 
 
 // BOTTOM AMOUNT LOGIC HERE (IN , OUT, INTEREST)   ///
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (acc) {
   //jo paisa aa raha hai uska status
-  const incomeIn = movements
+  const incomeIn = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomeIn} ₹`;
   //jo paisa jaa raha h uska status
-  const incomeOut = movements
+  const incomeOut = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(incomeOut)} ₹`;
 
   //count the interest on amount  interest 1.2%
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
-    //from line no 102 to 106 is master code which means if in future bank introduces condition that only people have more than 1 rs in bank will get intrest so we can add by this otherwise simply remove this logic it will work with reduce  ..
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    
+    //from line no 108 to 120 is master code which means if in future bank introduces condition that only people have more than 1 rs in bank will get intrest so we can add by this otherwise simply remove this logic it will work with reduce  ..
     .filter((inter, arr) => {
-      console.log(arr);
-      return inter >= 1;  //IF INETEREST IS GREATER THAN 1 
+      // console.log(arr);
+      return inter >= 1; //IF INETEREST IS GREATER THAN 1
     }) //till now
     .reduce((acc, inter) => acc + inter, 0);
   labelSumInterest.textContent = `${interest} ₹`;
 };
 
-calcDisplaySummary(account1.movements);
+
 /////  BOTTOM LOGIC ENDS HERE  //////
+
+
+
+
 
 
 
@@ -137,5 +147,43 @@ const createUsername = function (accs) {
   });
 };
 createUsername(accounts);
-console.log(accounts);
+// console.log(accounts);  //username added 
 //   ENDS HERE     //
+
+
+
+///  THE USER LOGIN LOGIC GOES HERE 
+let currentAccount;
+  btnLogin.addEventListener('click', function(e){
+  e.preventDefault()
+// console.log("hey")
+currentAccount=accounts.find(acc => acc.userName === inputLoginUsername.value);
+console.log(currentAccount) 
+
+if(currentAccount.pin=== Number(inputLoginPin.value)){
+// Dsiplay UI ans welcome msg
+labelWelcome.textContent= `Welcome back, ${currentAccount.owner.split(' ')[0]}`
+containerApp.style.opacity=100;
+
+
+//Clear input fields
+inputLoginUsername.value= inputLoginPin.value= '';
+inputLoginPin.blur()  //thsi will remove the cursor blink/focus
+
+
+// Display movements
+displayMovements(currentAccount.movements)
+
+//Display balance 
+calcDisplayBalance(currentAccount.movements)
+
+//Display summary 
+calcDisplaySummary(currentAccount)
+}
+})
+
+
+
+
+
+//   USER LOGIN LOGIC ENDS HERE
