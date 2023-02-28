@@ -128,10 +128,6 @@ const calcDisplaySummary = function (acc) {
 
 
 
-
-
-
-
 //    username LOGIC STARTS HERE
 //sorting user names like we have name as ('Hritik Dangi -> hd) we login using it
 const createusername = function (accs) {
@@ -150,6 +146,17 @@ createusername(accounts);
 // console.log(accounts);  //username added 
 //   ENDS HERE     //
 
+const updateUI= function(acc){
+  
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+};
 
 
 ///  THE USER LOGIN LOGIC GOES HERE 
@@ -170,16 +177,10 @@ containerApp.style.opacity=100;
 inputLoginusername.value= inputLoginPin.value= '';
 inputLoginPin.blur()  //thsi will remove the cursor blink/focus
 
-
-// Display movements
-displayMovements(currentAccount.movements)
-
-//Display balance 
-calcDisplayBalance(currentAccount)
-
-//Display summary 
-calcDisplaySummary(currentAccount)
+//update UI
+updateUI(currentAccount)
 }
+
 })
 
 //   USER LOGIN LOGIC ENDS HERE
@@ -190,7 +191,7 @@ btnTransfer.addEventListener('click', function(e){
   e.preventDefault();
   const amount= Number(inputTransferAmount.value);
   const receiverAcc= accounts.find(acc=>acc.username=== inputTransferTo.value);
-  inputTransferAmount.value= inputTransferTo.value= ' ';
+  inputTransferAmount.value= inputTransferTo.value= '';
   // console.log(amount, receiverAcc)
 
     // logic for 
@@ -206,6 +207,14 @@ receiverAcc.movements.push(amount)
   // console.log('Transfer valid ')
  }
 
+//updateUcI
+updateUI(currentAccount)
 
+})
 
+//closing button user deletion on click logic goes here 
+btnClose.addEventListener('click', function (e){
+e.preventDefault();
+if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.value=== currentAccount.pin))
+console.log('workingg')
 })
