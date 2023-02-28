@@ -49,12 +49,12 @@ const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
 const btnSort = document.querySelector('.btn--sort');
 
-const inputLoginUsername = document.querySelector('.login__input--user');
+const inputLoginusername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
 const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
-const inputCloseUsername = document.querySelector('.form__input--user');
+const inputCloseusername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
@@ -87,8 +87,8 @@ const displayMovements = function (movements) {
 /// DISPLAY BALANCE STARTS HERE   //
 //this function will calculate the total balance (including depost + withdrew) and show
 const calcDisplayBalance = function (acc) {
- acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance} ₹`;
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 /// DISPLAY BALANCE END HERE   //
@@ -132,12 +132,12 @@ const calcDisplaySummary = function (acc) {
 
 
 
-//    USERNAME LOGIC STARTS HERE
+//    username LOGIC STARTS HERE
 //sorting user names like we have name as ('Hritik Dangi -> hd) we login using it
-const createUsername = function (accs) {
+const createusername = function (accs) {
   accs.forEach(function (acc) {
     //here forEach producing a sideEffect where things working without returning
-    acc.userName = acc.owner
+    acc.username = acc.owner
       .toLocaleLowerCase()
       .split(' ')
       .map(function (startLetter) {
@@ -146,7 +146,7 @@ const createUsername = function (accs) {
       .join('');
   });
 };
-createUsername(accounts);
+createusername(accounts);
 // console.log(accounts);  //username added 
 //   ENDS HERE     //
 
@@ -157,7 +157,7 @@ let currentAccount;
   btnLogin.addEventListener('click', function(e){
   e.preventDefault()
 // console.log("hey")
-currentAccount=accounts.find(acc => acc.userName === inputLoginUsername.value);
+currentAccount=accounts.find(acc => acc.username === inputLoginusername.value);
 console.log(currentAccount) 
 
 if(currentAccount.pin=== Number(inputLoginPin.value)){
@@ -167,7 +167,7 @@ containerApp.style.opacity=100;
 
 
 //Clear input fields
-inputLoginUsername.value= inputLoginPin.value= '';
+inputLoginusername.value= inputLoginPin.value= '';
 inputLoginPin.blur()  //thsi will remove the cursor blink/focus
 
 
@@ -190,11 +190,22 @@ btnTransfer.addEventListener('click', function(e){
   e.preventDefault();
   const amount= Number(inputTransferAmount.value);
   const receiverAcc= accounts.find(acc=>acc.username=== inputTransferTo.value);
-  console.log(amount, receiverAcc
-    )
+  inputTransferAmount.value= inputTransferTo.value= ' ';
+  // console.log(amount, receiverAcc)
 
     // logic for 
     // 1. (Transfer amount should not be negative ,
     // 2. user should have minimum amount to transfer  
-    // 3. 
+    // 3. user should not transfer amount to self account 
+ if( amount > 0 && receiverAcc &&
+  currentAccount.balance >=amount && receiverAcc?.username !==
+  // here ? after receiverAcc called as optional chaining 
+   currentAccount.username ){
+currentAccount.movements.push(-amount);
+receiverAcc.movements.push(amount)
+  // console.log('Transfer valid ')
+ }
+
+
+
 })
