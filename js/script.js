@@ -224,7 +224,10 @@ if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.v
 
   //delete the user
   accounts.splice(index,1)
-}
 
+  //hide the UI
+  containerApp.style.opacity=0;
+}
+inputCloseusername.value = inputClosePin.value= '';
 
 })
