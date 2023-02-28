@@ -221,6 +221,9 @@ btnClose.addEventListener('click', function (e){
 if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.value)=== currentAccount.pin){
   const index= accounts.findIndex(acc=> acc.username===currentAccount.username)
   console.log(index)
+
+  //delete the user
+  accounts.splice(index,1)
 }
 
 
