@@ -86,9 +86,9 @@ const displayMovements = function (movements) {
 
 /// DISPLAY BALANCE STARTS HERE   //
 //this function will calculate the total balance (including depost + withdrew) and show
-const calcDisplayBalance = function (movements) {
-  const calcPrintBalance = movements.reduce((acc, cur) => acc + cur, 0);
-  labelBalance.textContent = `${calcPrintBalance} ₹`;
+const calcDisplayBalance = function (acc) {
+ acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance} ₹`;
 };
 
 /// DISPLAY BALANCE END HERE   //
@@ -141,7 +141,7 @@ const createUsername = function (accs) {
       .toLocaleLowerCase()
       .split(' ')
       .map(function (startLetter) {
-        return startLetter[0]; //eska matlab particular array ko pehle split karke  point to its 0th index and take take element,
+        return startLetter[0]; //eska matlab particular array ko pehle split karke  point to its 0th index and take that element,
       })
       .join('');
   });
@@ -175,15 +175,26 @@ inputLoginPin.blur()  //thsi will remove the cursor blink/focus
 displayMovements(currentAccount.movements)
 
 //Display balance 
-calcDisplayBalance(currentAccount.movements)
+calcDisplayBalance(currentAccount)
 
 //Display summary 
 calcDisplaySummary(currentAccount)
 }
 })
 
-
-
-
-
 //   USER LOGIN LOGIC ENDS HERE
+
+
+//amount transfer logic goes here 
+btnTransfer.addEventListener('click', function(e){
+  e.preventDefault();
+  const amount= Number(inputTransferAmount.value);
+  const receiverAcc= accounts.find(acc=>acc.username=== inputTransferTo.value);
+  console.log(amount, receiverAcc
+    )
+
+    // logic for 
+    // 1. (Transfer amount should not be negative ,
+    // 2. user should have minimum amount to transfer  
+    // 3. 
+})
