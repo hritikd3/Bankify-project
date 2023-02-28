@@ -214,7 +214,14 @@ updateUI(currentAccount)
 
 //closing button user deletion on click logic goes here 
 btnClose.addEventListener('click', function (e){
-e.preventDefault();
-if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.value=== currentAccount.pin))
-console.log('workingg')
+  e.preventDefault();
+  // console.log('workingg')
+
+  //here we are checking is the inputclose login credential is same as actual credential if yet than close the existing account
+if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.value)=== currentAccount.pin){
+  const index= accounts.findIndex(acc=> acc.username===currentAccount.username)
+  console.log(index)
+}
+
+
 })
