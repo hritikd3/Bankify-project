@@ -62,9 +62,16 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 //  ALL THE TRANSACTION LOGIC STARTS FROM HERE
 //Dom manupulation
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort= false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+
+  // implemented sorting button logic 
+  // if data is sorted than ok otherwise sort it using comparator function ( movements is basically the number of turns )
+ const moves= sort ? movements. splice(). sort((a,b)=> a-b) : movements; 
+
+
+
+  moves.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
   <div class="movements__row">
@@ -230,6 +237,10 @@ btnLoan.addEventListener('click', function(e){
 })
 
 
+btnSort.addEventListener('click', function(e)){
+   e.preventDefault();
+   updateUI( currentAccount)
+}
 
 
 
