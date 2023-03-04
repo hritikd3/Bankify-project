@@ -212,6 +212,28 @@ updateUI(currentAccount)
 
 })
 
+
+btnLoan.addEventListener('click', function(){
+
+  const = Number(inputLoanAmount.value)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //closing button user deletion on click logic goes here 
 btnClose.addEventListener('click', function (e){
   e.preventDefault();
