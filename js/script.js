@@ -65,7 +65,8 @@ const inputClosePin = document.querySelector('.form__input--pin');
 const displayMovements = function (movements, sort= false) {
   containerMovements.innerHTML = '';
 
-  // implemented sorting button logic 
+  // implemented sorting button logic
+  //if sort is set to true do run logic else simply set to movements
   // if data is sorted than ok otherwise sort it using comparator function ( movements is basically the number of turns )
  const moves= sort ? movements. splice(). sort((a,b)=> a-b) : movements; 
 
@@ -237,24 +238,6 @@ btnLoan.addEventListener('click', function(e){
 })
 
 
-btnSort.addEventListener('click', function(e)){
-   e.preventDefault();
-   updateUI( currentAccount)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //closing button user deletion on click logic goes here 
 btnClose.addEventListener('click', function (e){
@@ -275,3 +258,12 @@ if(inputCloseusername.value=== currentAccount.username && Number(inputClosePin.v
 inputCloseusername.value = inputClosePin.value= '';
 
 })
+
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('hey s');
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
