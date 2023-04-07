@@ -79,7 +79,7 @@ const displayMovements = function (movements, sort= false) {
           <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-          <div class="movements__value">${mov} ₹</div>
+          <div class="movements__value">${mov.toFixed(2)} ₹</div>
         </div>
   `;
 
@@ -110,7 +110,7 @@ const calcDisplaySummary = function (acc) {
   const incomeIn = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomeIn} ₹`;
+  labelSumIn.textContent = `${incomeIn.toFixed(2)} ₹`;
   //jo paisa jaa raha h uska status
   const incomeOut = acc.movements
     .filter(mov => mov < 0)
@@ -192,12 +192,19 @@ updateUI(currentAccount)
 })
 
 //   USER LOGIN LOGIC ENDS HERE
+labelBalance.addEventListener('click',function(){
 
+  [...document.querySelectorAll('.movements__row')].forEach(function(row,i){
+    if(i%2==0) row.style.backgroundColor= 'orangered';
+    if(i%3==0) row.style.backgroundColor= 'blue';
+  })
+})
+  
 
 //amount transfer logic goes here 
 btnTransfer.addEventListener('click', function(e){
   e.preventDefault();
-  const amount= Number(inputTransferAmount.value);
+  const amount= Math.floor(inputTransferAmount.value);
   const receiverAcc= accounts.find(acc=>acc.username=== inputTransferTo.value);
   inputTransferAmount.value= inputTransferTo.value= '';
   // console.log(amount, receiverAcc)
@@ -223,8 +230,8 @@ updateUI(currentAccount)
 
 btnLoan.addEventListener('click', function(e){
   e.preventDefault();
-
-  const amount= Number(inputLoanAmount.value);
+//here we implemented logic to get userInput by rounded off  
+  const amount= Math.floor(inputLoanAmount.value);
   if( amount >0 && currentAccount.movements.some(mov=> mov >= amount/10)){
 
     //add movement 
