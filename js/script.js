@@ -167,6 +167,22 @@ const updateUI= function(acc){
 };
 
 
+//date month year
+const now = new Date();
+// console.log(now)
+
+const day= `${now.getDate()}`.padStart(2,0);
+const month= `${now.getMonth()+ 1}`.padStart(2,0)
+const year= now.getFullYear();
+const hour= `${now.getHours()}`.padStart(2,0);
+const min= now.getMinutes();
+const seconds= now.getSeconds();
+
+labelDate.textContent = `${day}/${month}/${year } , Current Time: ${hour}:${seconds}`;
+
+
+//
+
 ///  THE USER LOGIN LOGIC GOES HERE 
 let currentAccount;
   btnLogin.addEventListener('click', function(e){
@@ -192,14 +208,8 @@ updateUI(currentAccount)
 })
 
 //   USER LOGIN LOGIC ENDS HERE
-labelBalance.addEventListener('click',function(){
 
-  [...document.querySelectorAll('.movements__row')].forEach(function(row,i){
-    if(i%2==0) row.style.backgroundColor= 'orangered';
-    if(i%3==0) row.style.backgroundColor= 'blue';
-  })
-})
-  
+
 
 //amount transfer logic goes here 
 btnTransfer.addEventListener('click', function(e){
