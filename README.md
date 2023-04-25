@@ -27,7 +27,7 @@ Flowchart🎯
 <hr>
 <hr>
 
-#### check out the deployed project :https://mybankify.vercel.app/
+#### check out the deployed project :https://mybankify.netlify.app/
 ## :fire: Features
 
 :white_check_mark: Clean interface  \
