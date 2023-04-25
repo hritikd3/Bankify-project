@@ -12,8 +12,8 @@ Bankify can be used as a platform between parties to transfer, mandate the payme
 </p>
 
 
-<img src="/">
-<img src="/ss.jpg">
+
+<img src="ss.jpg">
 <hr/>
 <hr />
 
